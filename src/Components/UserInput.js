@@ -1,0 +1,93 @@
+import { useState } from 'react';
+import styled from 'styled-components';
+
+const Form = styled.form`
+  max-width: 460px;
+  width: 95%;
+  margin: 32px auto;
+
+  .input_box {
+    border: 1px #e0e2e8 solid;
+    border-radius: 6px;
+    width: 100%;
+    display: flex;
+
+    input {
+      flex: 1;
+      border: none;
+      border-top-left-radius: inherit;
+      border-bottom-left-radius: inherit;
+      outline: none;
+      padding: 14px;
+      font: inherit;
+
+      &::placeholder {
+        color: #b0b2b8;
+      }
+    }
+
+    button {
+      border: none;
+      border-top-right-radius: inherit;
+      border-bottom-right-radius: inherit;
+      background-color: transparent;
+      color: #b0b2b8;
+      padding: 0 14px;
+      cursor: pointer;
+
+      &:hover {
+        color: #e94057;
+      }
+    }
+  }
+`;
+
+const UserInput = (props) => {
+  const [userInput, setUserInput] = useState('');
+
+  const submitTaskHandler = (ev) => {
+    ev.preventDefault();
+
+    if (userInput.trim().length === 0) {
+      return;
+    } else {
+      setUserInput('');
+    }
+  };
+
+  const userInputHandler = (ev) => {
+    setUserInput(ev.target.value);
+  };
+
+  return (
+    <Form onSubmit={submitTaskHandler}>
+      <div className="input_box">
+        <input
+          type="text"
+          placeholder="Search crypto assets..."
+          onChange={userInputHandler}
+          value={userInput}
+        />
+        <button type="submit">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="feather feather-search"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="28" y1="28" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+    </Form>
+  );
+};
+
+export default UserInput;
