@@ -60,12 +60,15 @@ const UserInput = (props) => {
     if (userInput.trim().length === 0) {
       return;
     } else {
+      props.onInputSubmit(userInput.trim());
       setUserInput('');
     }
   };
 
   const userInputHandler = (ev) => {
     setUserInput(ev.target.value);
+
+    props.onInputSubmit(ev.target.value.trim());
   };
 
   return (

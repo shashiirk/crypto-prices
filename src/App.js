@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 import UserInput from './Components/UserInput';
 import Table from '././Components/Table';
@@ -20,12 +22,35 @@ const Container = styled.div`
 `;
 
 function App() {
+  const [coins, setCoins] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    const request = async () => {
+      const { data } = await axios.get(
+        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false'
+      );
+
+      setCoins(data);
+    };
+
+    request().catch((error) => console.log(error));
+  }, []);
+
+  const searchTermHandler = (value) => {
+    setSearchTerm(value);
+  };
+
+  const filteredCoins = coins.filter((coin) =>
+    coin.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="app">
       <ColorBar />
       <Container>
-        <UserInput />
-        <Table />
+        <UserInput onInputSubmit={searchTermHandler} />
+        <Table coins={filteredCoins} />
       </Container>
       <Footer />
     </div>
