@@ -2,15 +2,23 @@ import styled from 'styled-components';
 
 const FooterBar = styled.div`
   /* border: 1px green solid; */
-  padding: 18px;
+  padding: 20px;
   text-align: center;
 
   a {
     text-decoration: none;
     color: #e94057;
 
-    &:hover {
-      text-decoration: underline 1px #e94057 solid;
+    @media (hover: hover) {
+      &:hover {
+        text-decoration: underline 1px #e94057 solid;
+      }
+    }
+
+    @media (hover: none) {
+      &:active {
+        text-decoration: underline 1px #e94057 solid;
+      }
     }
   }
 `;

@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 
 import UserInput from './Components/UserInput';
-import Cryptos from './Components/Cryptos';
+import Table from '././Components/Table';
 import Footer from './Components/Footer';
 
 const ColorBar = styled.div`
   height: 8px;
   background: #e94057;
-  background: -webkit-linear-gradient(to right, #f27121, #e94057, #8a2387);
-  background: linear-gradient(to right, #f27121, #e94057, #8a2387);
+  background: -webkit-linear-gradient(to right, #f27121, #e94057, #b22daf);
+  background: linear-gradient(to right, #f27121, #e94057, #b22daf);
 `;
 
 const Container = styled.div`
@@ -25,7 +25,7 @@ function App() {
       <ColorBar />
       <Container>
         <UserInput />
-        <Cryptos />
+        <Table />
       </Container>
       <Footer />
     </div>
