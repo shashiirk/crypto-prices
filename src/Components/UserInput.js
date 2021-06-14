@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Form = styled.form`
   max-width: 460px;
-  width: 95%;
+  width: 100%;
   margin: 32px auto;
 
   .input_box {

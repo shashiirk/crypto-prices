@@ -15,8 +15,21 @@ const Style = styled.div`
       width: 32px;
     }
 
-    .name {
-      margin: 0 14px;
+    .text {
+      display: flex;
+
+      .name {
+        margin: 0 14px;
+      }
+
+      &.mobile {
+        flex-direction: column;
+        margin: 0 14px;
+
+        .name {
+          margin: 0;
+        }
+      }
     }
 
     .symbol {
@@ -39,6 +52,10 @@ const Style = styled.div`
 
     .negative {
       color: #ef1921;
+    }
+
+    &.mobile {
+      flex-direction: column;
     }
   }
 `;
@@ -82,13 +99,36 @@ const changeFormatter = (num) => {
 };
 
 const Coin = (props) => {
-  return (
-    <Style>
-      <div className="title">
-        <img src={props.image} alt={props.name} />
-        <p className="name">{props.name}</p>
-        <p className="symbol">{props.symbol.toUpperCase()}</p>
+  let info;
+
+  if (props.type === 'mobile') {
+    info = (
+      <div className="info mobile">
+        <p>{currencyFormatter.format(props.current_price)}</p>
+        <p
+          className={
+            props.price_change_percentage_24h > 0 ? 'positive' : 'negative'
+          }
+        >
+          {changeFormatter(props.price_change_percentage_24h)}
+        </p>
       </div>
+    );
+  } else if (props.type === 'tablet') {
+    info = (
+      <div className="info">
+        <p>{currencyFormatter.format(props.current_price)}</p>
+        <p
+          className={
+            props.price_change_percentage_24h > 0 ? 'positive' : 'negative'
+          }
+        >
+          {changeFormatter(props.price_change_percentage_24h)}
+        </p>
+      </div>
+    );
+  } else if (props.type === 'desktop') {
+    info = (
       <div className="info">
         <p>{currencyFormatter.format(props.current_price)}</p>
         <p
@@ -102,6 +142,19 @@ const Coin = (props) => {
         <p>{higherCurrencyFormatter(props.market_cap)}</p>
         <p>{supplyFormatter(props.circulating_supply)}</p>
       </div>
+    );
+  }
+
+  return (
+    <Style>
+      <div className="title">
+        <img src={props.image} alt={props.name} />
+        <div className={`text ${props.type === 'mobile' ? 'mobile' : ''}`}>
+          <p className="name">{props.name}</p>
+          <p className="symbol">{props.symbol.toUpperCase()}</p>
+        </div>
+      </div>
+      {info}
     </Style>
   );
 };

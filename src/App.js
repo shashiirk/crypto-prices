@@ -19,6 +19,7 @@ const Container = styled.div`
   max-width: 800px;
   width: 100%;
   margin: auto;
+  padding: 0 14px;
 `;
 
 function App() {
