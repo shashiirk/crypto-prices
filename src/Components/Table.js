@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import Coin from './Coin';
+import CoinSkeleton from './CoinSkeleton';
 
 const Container = styled.div`
   border: 1px #e0e2e8 solid;
@@ -82,9 +83,16 @@ const Table = (props) => {
         {header}
       </div>
       <div className="coins">
-        {props.coins.map((coin) => (
-          <Coin key={coin.id} {...coin} type={screenType} />
-        ))}
+        {props.loading &&
+          Array(10)
+            .fill(1)
+            .map((item, index) => (
+              <CoinSkeleton key={index} type={screenType} />
+            ))}
+        {!props.loading &&
+          props.coins.map((coin) => (
+            <Coin key={coin.id} {...coin} type={screenType} />
+          ))}
       </div>
     </Container>
   );

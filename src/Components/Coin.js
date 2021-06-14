@@ -55,7 +55,12 @@ const Style = styled.div`
     }
 
     &.mobile {
+      flex: 1;
       flex-direction: column;
+    }
+
+    &.tablet {
+      flex: 2;
     }
   }
 `;
@@ -116,7 +121,7 @@ const Coin = (props) => {
     );
   } else if (props.type === 'tablet') {
     info = (
-      <div className="info">
+      <div className="info tablet">
         <p>{currencyFormatter.format(props.current_price)}</p>
         <p
           className={

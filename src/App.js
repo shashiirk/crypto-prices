@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import UserInput from './Components/UserInput';
-import Table from '././Components/Table';
-import Footer from './Components/Footer';
+import UserInput from './components/UserInput';
+import Table from './components/Table';
+import Footer from './components/Footer';
 
 const ColorBar = styled.div`
   height: 8px;
@@ -16,7 +16,7 @@ const ColorBar = styled.div`
 const Container = styled.div`
   /* border: 1px green solid; */
   flex: 1;
-  max-width: 800px;
+  max-width: 840px;
   width: 100%;
   margin: auto;
   padding: 0 14px;
@@ -25,17 +25,23 @@ const Container = styled.div`
 function App() {
   const [coins, setCoins] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const request = async () => {
+      setIsLoading(true);
       const { data } = await axios.get(
         'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false'
       );
 
       setCoins(data);
+      setIsLoading(false);
     };
 
-    request().catch((error) => console.log(error));
+    request().catch((error) => {
+      console.log(error);
+      setIsLoading(false);
+    });
   }, []);
 
   const searchTermHandler = (value) => {
@@ -51,7 +57,7 @@ function App() {
       <ColorBar />
       <Container>
         <UserInput onInputSubmit={searchTermHandler} />
-        <Table coins={filteredCoins} />
+        <Table coins={filteredCoins} loading={isLoading} />
       </Container>
       <Footer />
     </div>
