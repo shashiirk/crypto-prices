@@ -13,6 +13,10 @@ const ColorBar = styled.div`
   background: linear-gradient(to right, #f27121, #e94057, #b22daf);
 `;
 
+const Empty = styled.div`
+  text-align: center;
+`;
+
 const Container = styled.div`
   flex: 1;
   max-width: 840px;
@@ -56,7 +60,13 @@ function App() {
       <ColorBar />
       <Container>
         <UserInput onInputSubmit={searchTermHandler} />
-        <Table coins={filteredCoins} loading={isLoading} />
+        {filteredCoins.length > 0 ? (
+          <Table coins={filteredCoins} loading={isLoading} />
+        ) : (
+          <Empty>
+            <p>No assets were found</p>
+          </Empty>
+        )}
       </Container>
       <Footer />
     </div>

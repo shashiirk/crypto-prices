@@ -21,6 +21,7 @@ const Form = styled.form`
       outline: none;
       padding: 14px;
       font: inherit;
+      color: inherit;
 
       &::placeholder {
         color: #b0b2b8;
