@@ -4,24 +4,25 @@ const FooterBar = styled.div`
   border-top: 1px #e0e2e8 solid;
   padding: 18px 14px;
   text-align: center;
+  color: #626468;
 
   p:first-child {
     margin-bottom: 6px;
   }
 
   a {
-    text-decoration: none;
-    color: #f27121;
+    text-decoration: underline 1px #909296 solid;
+    color: inherit;
 
     @media (hover: hover) {
       &:hover {
-        text-decoration: underline 1px #f27121 solid;
+        text-decoration: none;
       }
     }
 
     @media (hover: none) {
       &:active {
-        text-decoration: underline 1px #f27121 solid;
+        text-decoration: none;
       }
     }
   }
