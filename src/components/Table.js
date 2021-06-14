@@ -19,14 +19,12 @@ const Container = styled.div`
     }
 
     ul {
-      /* border: 1px green solid; */
       list-style-type: none;
       flex: 3;
       display: flex;
       justify-content: space-between;
 
       li {
-        /* border: 1px pink solid; */
         text-align: right;
         flex: 1;
       }
@@ -84,7 +82,7 @@ const Table = (props) => {
       </div>
       <div className="coins">
         {props.loading &&
-          Array(10)
+          Array(25)
             .fill(1)
             .map((item, index) => (
               <CoinSkeleton key={index} type={screenType} />

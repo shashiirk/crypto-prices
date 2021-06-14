@@ -7,14 +7,13 @@ import Table from './components/Table';
 import Footer from './components/Footer';
 
 const ColorBar = styled.div`
-  height: 8px;
+  height: 10px;
   background: #e94057;
   background: -webkit-linear-gradient(to right, #f27121, #e94057, #b22daf);
   background: linear-gradient(to right, #f27121, #e94057, #b22daf);
 `;
 
 const Container = styled.div`
-  /* border: 1px green solid; */
   flex: 1;
   max-width: 840px;
   width: 100%;
@@ -31,7 +30,7 @@ function App() {
     const request = async () => {
       setIsLoading(true);
       const { data } = await axios.get(
-        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false'
+        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&sparkline=false'
       );
 
       setCoins(data);

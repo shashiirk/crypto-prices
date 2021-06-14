@@ -52,7 +52,6 @@ const Style = styled.div`
     align-items: center;
 
     .text {
-      /* border: 1px green solid; */
       display: flex;
       flex: 1;
 
