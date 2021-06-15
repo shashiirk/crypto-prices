@@ -4,7 +4,7 @@ An application that fetches the live prices of cryptocurrencies and displays it 
 
 ## Preview
 
-![preview](https://user-images.githubusercontent.com/48406108/119082043-e17e5100-ba1a-11eb-9762-b94c8357a496.jpg)
+![preview](https://user-images.githubusercontent.com/48406108/122037203-fcfa3300-cdf1-11eb-9b71-0af574c70cb2.gif)
 
 ## Live Demo
 
