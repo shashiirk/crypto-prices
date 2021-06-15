@@ -14,7 +14,7 @@ const Form = styled.form`
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.08);
 
     input {
-      flex: 1;
+      width: 100%;
       border: none;
       border-top-left-radius: inherit;
       border-bottom-left-radius: inherit;

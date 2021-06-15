@@ -13,13 +13,13 @@ const ColorBar = styled.div`
   background: linear-gradient(to right, #f27121, #e94057, #b22daf);
 `;
 
-const Empty = styled.div`
+const Div = styled.div`
   text-align: center;
 `;
 
 const Container = styled.div`
   flex: 1;
-  max-width: 840px;
+  max-width: 1024px;
   width: 100%;
   margin: auto;
   padding: 0 14px;
@@ -29,6 +29,7 @@ function App() {
   const [coins, setCoins] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const request = async () => {
@@ -39,11 +40,13 @@ function App() {
 
       setCoins(data);
       setIsLoading(false);
+      setIsError(false);
     };
 
     request().catch((error) => {
       console.log(error);
       setIsLoading(false);
+      setIsError(true);
     });
   }, []);
 
@@ -55,18 +58,36 @@ function App() {
     coin.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  let mainContent;
+
+  if (isLoading) {
+    mainContent = <Table coins={filteredCoins} loading={isLoading} />;
+  } else {
+    if (isError) {
+      mainContent = (
+        <Div>
+          <p>Something went wrong</p>
+        </Div>
+      );
+    } else {
+      if (filteredCoins.length > 0) {
+        mainContent = <Table coins={filteredCoins} loading={isLoading} />;
+      } else {
+        mainContent = (
+          <Div>
+            <p>No assets were found</p>
+          </Div>
+        );
+      }
+    }
+  }
+
   return (
     <div className="app">
       <ColorBar />
       <Container>
         <UserInput onInputSubmit={searchTermHandler} />
-        {filteredCoins.length > 0 ? (
-          <Table coins={filteredCoins} loading={isLoading} />
-        ) : (
-          <Empty>
-            <p>No assets were found</p>
-          </Empty>
-        )}
+        {mainContent}
       </Container>
       <Footer />
     </div>
