@@ -8,7 +8,7 @@ An application that fetches the live prices of cryptocurrencies and displays it 
 
 ## Live Demo
 
-See it live [here](https://shashiirk.github.io/crypto-prices).
+See it live [here](https://the-crypto-prices.netlify.app).
 
 ## Installation
 
@@ -39,8 +39,8 @@ $ npm start
 
 ## Credits
 
-Project inspiration from [this](https://youtu.be/9ohK7CapmIs) YouTube video.
-Design inspired (almost copied) from [Coinbase](https://www.coinbase.com/price) prices dashboard.
+- Project inspiration from [this](https://youtu.be/9ohK7CapmIs) YouTube video.
+- Design inspired (almost copied) from [Coinbase](https://www.coinbase.com/price) prices dashboard.
 
 ## Licence
 
