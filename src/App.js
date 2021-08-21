@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import UserInput from './components/UserInput';
+import Header from './components/Header';
 import Table from './components/Table';
 import Footer from './components/Footer';
 
 const ColorBar = styled.div`
-  height: 10px;
-  background: #e94057;
-  background: -webkit-linear-gradient(to right, #f27121, #e94057, #b22daf);
-  background: linear-gradient(to right, #f27121, #e94057, #b22daf);
+  height: 8px;
+  background: #7f00ff;
+  background: -webkit-linear-gradient(to right, #e100ff, #7f00ff);
+  background: linear-gradient(to right, #e100ff, #7f00ff);
 `;
 
 const Div = styled.div`
@@ -22,14 +22,35 @@ const Container = styled.div`
   max-width: 1024px;
   width: 100%;
   margin: auto;
-  padding: 0 14px;
+  padding: 0 16px;
 `;
+
+const DEFAULT_STATE = {
+  parameter: 'market_cap',
+  order: 'desc',
+};
+
+const sortReducer = (state, action) => {
+  if (action.type === 'SELECT_SORT') {
+    return {
+      parameter: action.parameter,
+      order: 'desc',
+    };
+  } else if (action.type === 'TOGGLE_SORT') {
+    return {
+      parameter: state.parameter,
+      order: state.order === 'desc' ? 'asc' : 'desc',
+    };
+  }
+
+  return DEFAULT_STATE;
+};
 
 function App() {
   const [coins, setCoins] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const [sortState, dispatchSortState] = useReducer(sortReducer, DEFAULT_STATE);
 
   useEffect(() => {
     const request = async () => {
@@ -50,18 +71,42 @@ function App() {
     });
   }, []);
 
-  const searchTermHandler = (value) => {
-    setSearchTerm(value);
+  const selectSortHandler = (parameter) => {
+    dispatchSortState({ type: 'SELECT_SORT', parameter: parameter });
   };
 
-  const filteredCoins = coins.filter((coin) =>
-    coin.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const toggleSortHandler = () => {
+    dispatchSortState({ type: 'TOGGLE_SORT' });
+  };
+
+  let sortedCoins;
+
+  if (sortState.parameter === 'name') {
+    sortedCoins =
+      sortState.order === 'desc'
+        ? coins.sort((a, b) => {
+            if (b.name > a.name) {
+              return 1;
+            }
+            return -1;
+          })
+        : coins.sort((a, b) => {
+            if (a.name > b.name) {
+              return 1;
+            }
+            return -1;
+          });
+  } else {
+    sortedCoins =
+      sortState.order === 'desc'
+        ? coins.sort((a, b) => b[sortState.parameter] - a[sortState.parameter])
+        : coins.sort((a, b) => a[sortState.parameter] - b[sortState.parameter]);
+  }
 
   let mainContent;
 
   if (isLoading) {
-    mainContent = <Table coins={filteredCoins} loading={isLoading} />;
+    mainContent = <Table coins={sortedCoins} loading={isLoading} />;
   } else {
     if (isError) {
       mainContent = (
@@ -70,8 +115,17 @@ function App() {
         </Div>
       );
     } else {
-      if (filteredCoins.length > 0) {
-        mainContent = <Table coins={filteredCoins} loading={isLoading} />;
+      if (sortedCoins.length > 0) {
+        mainContent = (
+          <Table
+            coins={sortedCoins}
+            loading={isLoading}
+            sortParameter={sortState.parameter}
+            sortOrder={sortState.order}
+            onSelectSort={selectSortHandler}
+            onToggleSort={toggleSortHandler}
+          />
+        );
       } else {
         mainContent = (
           <Div>
@@ -85,10 +139,8 @@ function App() {
   return (
     <div className="app">
       <ColorBar />
-      <Container>
-        <UserInput onInputSubmit={searchTermHandler} />
-        {mainContent}
-      </Container>
+      <Header />
+      <Container>{mainContent}</Container>
       <Footer />
     </div>
   );
