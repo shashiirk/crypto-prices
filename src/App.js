@@ -1,28 +1,14 @@
 import { useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { Route, Switch } from 'react-router';
 
-import Header from './components/Header';
 import Table from './components/Table';
-import Footer from './components/Footer';
-
-const ColorBar = styled.div`
-  height: 8px;
-  background: #7f00ff;
-  background: -webkit-linear-gradient(to right, #e100ff, #7f00ff);
-  background: linear-gradient(to right, #e100ff, #7f00ff);
-`;
+import Home from './pages/Home';
+import AboutCoin from './pages/AboutCoin';
 
 const Div = styled.div`
   text-align: center;
-`;
-
-const Container = styled.div`
-  flex: 1;
-  max-width: 1024px;
-  width: 100%;
-  margin: auto;
-  padding: 0 16px;
 `;
 
 const DEFAULT_STATE = {
@@ -54,21 +40,24 @@ function App() {
 
   useEffect(() => {
     const request = async () => {
-      setIsLoading(true);
-      const { data } = await axios.get(
-        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&sparkline=false'
-      );
+      try {
+        setIsLoading(true);
 
-      setCoins(data);
-      setIsLoading(false);
-      setIsError(false);
+        const { data } = await axios.get(
+          'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&sparkline=false'
+        );
+
+        setCoins(data);
+        setIsError(false);
+      } catch (error) {
+        console.log(error);
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    request().catch((error) => {
-      console.log(error);
-      setIsLoading(false);
-      setIsError(true);
-    });
+    request();
   }, []);
 
   const selectSortHandler = (parameter) => {
@@ -137,12 +126,14 @@ function App() {
   }
 
   return (
-    <div className="app">
-      <ColorBar />
-      <Header />
-      <Container>{mainContent}</Container>
-      <Footer />
-    </div>
+    <Switch>
+      <Route exact path="/">
+        <Home>{mainContent}</Home>
+      </Route>
+      <Route exact path="/coins/:id">
+        <AboutCoin />
+      </Route>
+    </Switch>
   );
 }
 

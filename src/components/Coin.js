@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Style = styled.div`
@@ -6,6 +7,7 @@ const Style = styled.div`
   align-items: center;
 
   .title {
+    text-decoration: none;
     flex: 1;
     width: 100%;
     display: flex;
@@ -18,6 +20,7 @@ const Style = styled.div`
 
     .text {
       display: flex;
+      color: #222324;
 
       .name {
         margin: 0 14px;
@@ -158,13 +161,13 @@ const Coin = (props) => {
   } else if (props.type === 'desktop') {
     info = (
       <>
-        <div className="title">
+        <Link to={`/coins/${props.id}`} className="title">
           <img src={props.image} alt={props.name} />
           <div className={`text ${props.type === 'mobile' ? 'mobile' : ''}`}>
             <p className="name">{props.name}</p>
             <p className="symbol">{props.symbol.toUpperCase()}</p>
           </div>
-        </div>
+        </Link>
         <div className="info">
           <p>{currencyFormatter.format(props.current_price)}</p>
           <p
