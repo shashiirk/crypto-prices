@@ -102,7 +102,6 @@ const Table = (props) => {
   }, []);
 
   const sortHandler = (parameter) => {
-    // console.log(parameter);
     if (props.sortParameter !== parameter) {
       props.onSelectSort(parameter);
     } else {
@@ -114,68 +113,93 @@ const Table = (props) => {
 
   if (width <= 640) {
     header = (
-      <ul>
-        <li>Price</li>
-      </ul>
+      <>
+        <div>
+          <button>Name</button>
+        </div>
+        <ul>
+          <li>
+            <button>Price</button>
+          </li>
+        </ul>
+      </>
     );
     screenType = 'mobile';
   } else if (width <= 768) {
     header = (
-      <ul>
-        <li>Price</li>
-        <li>Change</li>
-      </ul>
+      <>
+        <div>
+          <button onClick={sortHandler.bind(null, 'name')}>Name</button>
+          {props.sortParameter === 'name' ? arrow : ''}
+        </div>
+        <ul>
+          <li>
+            <button onClick={sortHandler.bind(null, 'current_price')}>
+              Price
+            </button>
+            {props.sortParameter === 'current_price' ? arrow : ''}
+          </li>
+          <li>
+            <button
+              onClick={sortHandler.bind(null, 'price_change_percentage_24h')}
+            >
+              Change
+            </button>
+            {props.sortParameter === 'price_change_percentage_24h' ? arrow : ''}
+          </li>
+        </ul>
+      </>
     );
     screenType = 'tablet';
   } else {
     header = (
-      <ul>
-        <li>
-          <button onClick={sortHandler.bind(null, 'current_price')}>
-            Price
-          </button>
-          {props.sortParameter === 'current_price' ? arrow : ''}
-        </li>
-        <li>
-          <button
-            onClick={sortHandler.bind(null, 'price_change_percentage_24h')}
-          >
-            Change
-          </button>
-          {props.sortParameter === 'price_change_percentage_24h' ? arrow : ''}
-        </li>
-        <li>
-          <button onClick={sortHandler.bind(null, 'total_volume')}>
-            Volume (24h)
-          </button>
-          {props.sortParameter === 'total_volume' ? arrow : ''}
-        </li>
-        <li>
-          <button onClick={sortHandler.bind(null, 'market_cap')}>
-            Market cap
-          </button>
-          {props.sortParameter === 'market_cap' ? arrow : ''}
-        </li>
-        <li>
-          <button onClick={sortHandler.bind(null, 'circulating_supply')}>
-            Supply
-          </button>
-          {props.sortParameter === 'circulating_supply' ? arrow : ''}
-        </li>
-      </ul>
+      <>
+        <div>
+          <button onClick={sortHandler.bind(null, 'name')}>Name</button>
+          {props.sortParameter === 'name' ? arrow : ''}
+        </div>
+        <ul>
+          <li>
+            <button onClick={sortHandler.bind(null, 'current_price')}>
+              Price
+            </button>
+            {props.sortParameter === 'current_price' ? arrow : ''}
+          </li>
+          <li>
+            <button
+              onClick={sortHandler.bind(null, 'price_change_percentage_24h')}
+            >
+              Change
+            </button>
+            {props.sortParameter === 'price_change_percentage_24h' ? arrow : ''}
+          </li>
+          <li>
+            <button onClick={sortHandler.bind(null, 'total_volume')}>
+              Volume (24h)
+            </button>
+            {props.sortParameter === 'total_volume' ? arrow : ''}
+          </li>
+          <li>
+            <button onClick={sortHandler.bind(null, 'market_cap')}>
+              Market cap
+            </button>
+            {props.sortParameter === 'market_cap' ? arrow : ''}
+          </li>
+          <li>
+            <button onClick={sortHandler.bind(null, 'circulating_supply')}>
+              Supply
+            </button>
+            {props.sortParameter === 'circulating_supply' ? arrow : ''}
+          </li>
+        </ul>
+      </>
     );
     screenType = 'desktop';
   }
 
   return (
     <Container>
-      <div className="head">
-        <div>
-          <button onClick={sortHandler.bind(null, 'name')}>Name</button>
-          {props.sortParameter === 'name' ? arrow : ''}
-        </div>
-        {header}
-      </div>
+      <div className="head">{header}</div>
       <div className="coins">
         {props.loading &&
           Array(25)
