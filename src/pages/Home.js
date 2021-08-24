@@ -1,14 +1,8 @@
 import styled from 'styled-components';
 
-import Footer from '../components/Footer';
+import ColorBar from '../components/ColorBar';
 import Header from '../components/Header';
-
-const ColorBar = styled.div`
-  height: 8px;
-  background: #7f00ff;
-  background: -webkit-linear-gradient(to right, #e100ff, #7f00ff);
-  background: linear-gradient(to right, #e100ff, #7f00ff);
-`;
+import Footer from '../components/Footer';
 
 const Container = styled.div`
   flex: 1;
