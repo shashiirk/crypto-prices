@@ -18,13 +18,13 @@ const FooterBar = styled.div`
       }
 
       &:hover {
-        color: #e100ff;
+        color: #c800e3;
       }
     }
 
     @media (hover: none) {
       &:active {
-        color: #7f00ff;
+        color: #c800e3;
       }
     }
   }

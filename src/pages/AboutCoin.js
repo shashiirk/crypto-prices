@@ -12,6 +12,24 @@ const Container = styled.div`
   width: 100%;
   margin: auto;
   padding: 0 16px;
+  color: #222324;
+
+  .description {
+    a {
+      text-decoration: none;
+      color: #c800e3;
+
+      @media (hover: hover) {
+        & {
+          transition: color 200ms ease-in-out;
+        }
+
+        &:hover {
+          color: #9900ae;
+        }
+      }
+    }
+  }
 `;
 
 const AboutCoin = () => {
@@ -24,9 +42,10 @@ const AboutCoin = () => {
   useEffect(() => {
     const request = async () => {
       const { data } = await axios.get(
-        `https://api.coingecko.com/api/v3/coins/${params.id}`
+        `https://api.coingecko.com/api/v3/coins/${params.id}?tickers=false&community_data=false&developer_data=false`
       );
       console.log(data);
+      setCoin(data);
     };
 
     request();
@@ -35,7 +54,26 @@ const AboutCoin = () => {
   return (
     <div className="box">
       <ColorBar />
-      <Container />
+      {!!coin ? (
+        <Container>
+          <div className="header">
+            <img src={coin.image.small} alt={coin.name} />
+            <div className="text">
+              <p className="name">{coin.name}</p>
+              <p className="symbol">{coin.symbol.toUpperCase()}</p>
+            </div>
+          </div>
+          <div className="description">
+            <div className="title">About {coin.name}</div>
+            <div
+              className="content"
+              dangerouslySetInnerHTML={{ __html: coin.description.en }}
+            />
+          </div>
+        </Container>
+      ) : (
+        <Container />
+      )}
       <Footer />
     </div>
   );
