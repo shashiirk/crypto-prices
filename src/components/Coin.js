@@ -2,11 +2,24 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Style = styled.div`
-  padding: 14px 16px;
   display: flex;
   align-items: center;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  .mobile__link {
+    text-decoration: none;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
 
   .title {
+    padding: 14px 0 14px 16px;
     text-decoration: none;
     flex: 1;
     width: 100%;
@@ -46,10 +59,12 @@ const Style = styled.div`
   }
 
   .info {
-    display: flex;
     flex: 3;
+    padding-right: 16px;
+    display: flex;
 
     p {
+      color: #222324;
       flex: 1;
       text-align: right;
     }
@@ -69,6 +84,12 @@ const Style = styled.div`
 
     &.tablet {
       flex: 2;
+    }
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: #f9f9f9;
     }
   }
 `;
@@ -116,7 +137,7 @@ const Coin = (props) => {
 
   if (props.type === 'mobile') {
     info = (
-      <>
+      <Link to={`/coins/${props.id}`} className="mobile__link">
         <div className="title mobile">
           <img src={props.image} alt={props.name} />
           <div className={`text ${props.type === 'mobile' ? 'mobile' : ''}`}>
@@ -134,18 +155,18 @@ const Coin = (props) => {
             {changeFormatter(props.price_change_percentage_24h)}
           </p>
         </div>
-      </>
+      </Link>
     );
   } else if (props.type === 'tablet') {
     info = (
       <>
-        <div className="title">
+        <Link to={`/coins/${props.id}`} className="title">
           <img src={props.image} alt={props.name} />
           <div className={`text ${props.type === 'mobile' ? 'mobile' : ''}`}>
             <p className="name">{props.name}</p>
             <p className="symbol">{props.symbol.toUpperCase()}</p>
           </div>
-        </div>
+        </Link>
         <div className="info tablet">
           <p>{currencyFormatter.format(props.current_price)}</p>
           <p
