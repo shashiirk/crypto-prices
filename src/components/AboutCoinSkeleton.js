@@ -142,6 +142,10 @@ const Style = styled.div`
 
         .logo .text .strip {
           margin-left: 0;
+
+          &:first-child {
+            height: 18px;
+          }
         }
       }
 

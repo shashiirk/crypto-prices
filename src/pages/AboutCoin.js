@@ -9,6 +9,7 @@ import currencyFormatter from '../utils/currencyFormatter';
 import changeFormatter from '../utils/changeFormatter';
 import marketFormatter from '../utils/marketFormatter';
 import AboutCoinSkeleton from '../components/AboutCoinSkeleton';
+import NotFound from './NotFound';
 
 const Container = styled.div`
   flex: 1;
@@ -61,6 +62,7 @@ const Container = styled.div`
         color: white;
         border-radius: 4px;
         margin-bottom: 4px;
+        white-space: nowrap;
       }
 
       .logo {
@@ -94,6 +96,12 @@ const Container = styled.div`
             font-weight: 600;
             color: #83858a;
           }
+        }
+      }
+
+      @media (max-width: 640px) {
+        .logo .text .name {
+          font-size: 20px;
         }
       }
     }
@@ -299,8 +307,16 @@ const AboutCoin = () => {
         );
 
         setCoin(data);
+        setIsError(false);
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          console.log(error.response);
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log('Error', error.message);
+        }
+        setIsError(true);
       } finally {
         setIsLoading(false);
       }
@@ -317,7 +333,7 @@ const AboutCoin = () => {
           <AboutCoinSkeleton />
         </Container>
       )}
-      {!isLoading && (
+      {!isLoading && !isError && (
         <Container>
           <div className="nav">
             <a href="/">Coins</a>
@@ -466,6 +482,7 @@ const AboutCoin = () => {
           </div>
         </Container>
       )}
+      {!isLoading && isError && <NotFound />}
       <Footer />
     </div>
   );

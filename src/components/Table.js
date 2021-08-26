@@ -41,10 +41,10 @@ const Container = styled.div`
       font: inherit;
       border: none;
       outline: none;
-      cursor: pointer;
 
-      @media (hover: hover) {
+      @media (hover: hover) and (min-width: 640px) {
         & {
+          cursor: pointer;
           transition: color 200ms ease-in-out;
         }
 

@@ -7,12 +7,15 @@ import Table from './components/Table';
 import Home from './pages/Home';
 import AboutCoin from './pages/AboutCoin';
 import ScrollToTop from './hooks/ScrollToTop';
+import NotFound from './pages/NotFound';
+import ColorBar from './components/ColorBar';
+import Footer from './components/Footer';
 
 const Div = styled.div`
   text-align: center;
 `;
 
-const DEFAULT_STATE = {
+const DEFAULT_SORT_STATE = {
   parameter: 'market_cap',
   order: 'desc',
 };
@@ -30,14 +33,17 @@ const sortReducer = (state, action) => {
     };
   }
 
-  return DEFAULT_STATE;
+  return DEFAULT_SORT_STATE;
 };
 
 function App() {
   const [coins, setCoins] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
-  const [sortState, dispatchSortState] = useReducer(sortReducer, DEFAULT_STATE);
+  const [sortState, dispatchSortState] = useReducer(
+    sortReducer,
+    DEFAULT_SORT_STATE
+  );
 
   useEffect(() => {
     const request = async () => {
@@ -135,6 +141,13 @@ function App() {
         </Route>
         <Route exact path="/coins/:id">
           <AboutCoin />
+        </Route>
+        <Route path="*">
+          <div className="box">
+            <ColorBar />
+            <NotFound />
+            <Footer />
+          </div>
         </Route>
       </Switch>
     </>
