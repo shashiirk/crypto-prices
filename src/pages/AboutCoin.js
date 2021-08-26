@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
 import ColorBar from '../components/ColorBar';
 import Footer from '../components/Footer';
+import currencyFormatter from '../utils/currencyFormatter';
+import changeFormatter from '../utils/changeFormatter';
+import marketFormatter from '../utils/marketFormatter';
 
 const Container = styled.div`
   flex: 1;
@@ -14,28 +17,145 @@ const Container = styled.div`
   padding: 0 16px;
   color: #222324;
 
-  .header {
+  .nav {
     display: flex;
+    align-items: center;
+    margin-bottom: 32px;
 
-    img {
-      width: 46px;
-      height: 46px;
-    }
+    a {
+      text-decoration: none;
+      color: #83858a;
 
-    .text {
-      margin-left: 20px;
-      display: flex;
-      align-items: center;
+      @media (hover: hover) {
+        & {
+          transition: color 200ms ease-in-out;
+        }
 
-      .name {
-        margin-right: 10px;
-        font-size: 32px;
-        font-weight: 500;
+        &:hover {
+          color: #c800e3;
+        }
       }
 
-      .symbol {
+      @media (hover: none) {
+        &:active {
+          color: #c800e3;
+        }
+      }
+    }
+  }
+
+  .header {
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .title {
+      .badge {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 2px 6px;
+        background-color: #585a5d;
+        color: white;
+        border-radius: 4px;
+        margin-bottom: 4px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+
+        img {
+          width: 32px;
+          height: 32px;
+        }
+
+        .text {
+          margin-left: 16px;
+          display: flex;
+          align-items: center;
+
+          .name {
+            margin-right: 16px;
+            font-size: 32px;
+            font-weight: 600;
+          }
+
+          .symbol {
+            background-color: #f2f3f5;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #83858a;
+          }
+        }
+      }
+    }
+
+    .price {
+      .title {
+        display: block;
+        text-align: right;
+        font-size: 12px;
+        font-weight: 600;
+        color: #83858a;
+        margin-bottom: 8px;
+      }
+
+      .content {
+        display: flex;
+        align-items: center;
+
+        .value {
+          font-size: 32px;
+          font-weight: 600;
+        }
+
+        .change {
+          font-size: 14px;
+          font-weight: 600;
+          padding: 4px 10px;
+          border-radius: 8px;
+          margin-left: 16px;
+          color: white;
+
+          &.positive {
+            background-color: #09bc4d;
+          }
+
+          &.negative {
+            background-color: #ef1921;
+          }
+        }
+      }
+    }
+  }
+
+  .stats {
+    border: 1px #e0e2e8 solid;
+    border-radius: 4px;
+    margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    .stat {
+      padding: 16px;
+
+      .title {
+        color: #626468;
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+
+      .value {
         font-size: 18px;
-        color: #909296;
+      }
+
+      &:nth-child(2) {
+        border-left: 1px #e0e2e8 solid;
+        border-right: 1px #e0e2e8 solid;
       }
     }
   }
@@ -141,14 +261,87 @@ const AboutCoin = () => {
       <ColorBar />
       {!!coin ? (
         <Container>
+          <div className="nav">
+            <Link to="/">Coins</Link>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon icon-tabler icon-tabler-chevron-right"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              strokeWidth="1"
+              stroke="#2c3e50"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <polyline points="9 6 15 12 9 18" />
+            </svg>
+            <Link to="#">{coin.name}</Link>
+          </div>
           <div className="header">
-            <img src={coin.image.small} alt={coin.name} />
-            <div className="text">
-              <p className="name">{`${coin.name} price`}</p>
-              <p className="symbol">{`(${coin.symbol.toUpperCase()})`}</p>
+            <div className="title">
+              <div className="badge">
+                Rank #{coin.market_data.market_cap_rank}
+              </div>
+              <div className="logo">
+                <img src={coin.image.small} alt={coin.name} />
+                <div className="text">
+                  <p className="name">{coin.name}</p>
+                  <p className="symbol">{coin.symbol.toUpperCase()}</p>
+                </div>
+              </div>
+            </div>
+            <div className="price">
+              <div className="title">{`${
+                coin.name
+              } Price (${coin.symbol.toUpperCase()})`}</div>
+              <div className="content">
+                <p class="value">
+                  {currencyFormatter.format(coin.market_data.current_price.usd)}
+                </p>
+                <p
+                  className={`change
+                  ${
+                    coin.market_data.price_change_percentage_24h > 0
+                      ? 'positive'
+                      : 'negative'
+                  }
+                `}
+                >
+                  {changeFormatter(
+                    coin.market_data.price_change_percentage_24h
+                  )}
+                </p>
+              </div>
             </div>
           </div>
-          <div className="stats"></div>
+          <div className="stats">
+            <div className="stat">
+              <div className="title">Market cap</div>
+              <div className="value">
+                {marketFormatter.format(coin.market_data.market_cap.usd)}
+              </div>
+            </div>
+            <div className="stat">
+              <div className="title">Volume</div>
+              <div className="value">
+                {marketFormatter.format(coin.market_data.total_volume.usd)}
+              </div>
+            </div>
+            <div className="stat">
+              <div className="title">Circulating supply</div>
+              <div className="value">
+                {new Intl.NumberFormat('en-US', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }).format(coin.market_data.circulating_supply) +
+                  ' ' +
+                  coin.symbol.toUpperCase()}
+              </div>
+            </div>
+          </div>
           <div className="description">
             <div className="title">About {coin.name}</div>
             <div
