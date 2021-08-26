@@ -25,7 +25,7 @@ const Style = styled.div`
     }
 
     &.strip {
-      height: 16px;
+      height: 20px;
       margin-left: 32px;
     }
 

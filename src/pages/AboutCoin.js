@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 import currencyFormatter from '../utils/currencyFormatter';
 import changeFormatter from '../utils/changeFormatter';
 import marketFormatter from '../utils/marketFormatter';
+import AboutCoinSkeleton from '../components/AboutCoinSkeleton';
 
 const Container = styled.div`
   flex: 1;
@@ -53,8 +54,8 @@ const Container = styled.div`
     .title {
       .badge {
         display: inline-block;
-        font-size: 11px;
-        font-weight: 500;
+        font-size: 12px;
+        font-weight: 600;
         padding: 2px 6px;
         background-color: #585a5d;
         color: white;
@@ -104,7 +105,7 @@ const Container = styled.div`
         font-size: 12px;
         font-weight: 600;
         color: #83858a;
-        margin-bottom: 8px;
+        margin-bottom: 4px;
       }
 
       .content {
@@ -134,6 +135,31 @@ const Container = styled.div`
         }
       }
     }
+
+    @media (max-width: 640px) {
+      & {
+        display: block;
+      }
+
+      .title {
+        margin-bottom: 32px;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: flex-end;
+
+        .badge {
+          margin-bottom: 0;
+          margin-left: 16px;
+        }
+      }
+
+      .price {
+        .title {
+          text-align: left;
+        }
+      }
+    }
   }
 
   .stats {
@@ -148,6 +174,7 @@ const Container = styled.div`
 
       .title {
         color: #626468;
+        font-size: 14px;
         font-weight: 500;
         margin-bottom: 8px;
       }
@@ -161,6 +188,19 @@ const Container = styled.div`
         border-right: 1px #e0e2e8 solid;
       }
     }
+
+    @media (max-width: 640px) {
+      & {
+        grid-template-columns: 1fr;
+      }
+
+      .stat:nth-child(2) {
+        border-top: 1px #e0e2e8 solid;
+        border-left: none;
+        border-bottom: 1px #e0e2e8 solid;
+        border-right: none;
+      }
+    }
   }
 
   .description {
@@ -171,6 +211,8 @@ const Container = styled.div`
     }
 
     .content {
+      line-height: 1.6;
+
       a {
         text-decoration: none;
         color: #c800e3;
@@ -242,33 +284,46 @@ const Container = styled.div`
 
 const AboutCoin = () => {
   const [coin, setCoin] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
   const params = useParams();
 
   useEffect(() => {
     const request = async () => {
-      const { data } = await axios.get(
-        `https://api.coingecko.com/api/v3/coins/${params.id}?tickers=false&community_data=false&developer_data=false`
-      );
-      console.log(data);
-      setCoin(data);
+      try {
+        setIsLoading(true);
+
+        const { data } = await axios.get(
+          `https://api.coingecko.com/api/v3/coins/${params.id}?tickers=false&community_data=false&developer_data=false`
+        );
+
+        setCoin(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     request();
-  }, []);
+  }, [params.id]);
 
   return (
     <div className="box">
       <ColorBar />
-      {!!coin ? (
+      {isLoading && (
+        <Container>
+          <AboutCoinSkeleton />
+        </Container>
+      )}
+      {!isLoading && (
         <Container>
           <div className="nav">
             <a href="/">Coins</a>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="icon icon-tabler icon-tabler-chevron-right"
+              className="icon icon-tabler icon-tabler-chevron-right"
               width="18"
               height="18"
               viewBox="0 0 24 24"
@@ -301,7 +356,7 @@ const AboutCoin = () => {
                 coin.name
               } Price (${coin.symbol.toUpperCase()})`}</div>
               <div className="content">
-                <p class="value">
+                <p className="value">
                   {currencyFormatter.format(coin.market_data.current_price.usd)}
                 </p>
                 <p
@@ -362,7 +417,7 @@ const AboutCoin = () => {
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="icon icon-tabler icon-tabler-world"
+                      className="icon icon-tabler icon-tabler-world"
                       width="24"
                       height="24"
                       viewBox="0 0 24 24"
@@ -390,7 +445,7 @@ const AboutCoin = () => {
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="icon icon-tabler icon-tabler-brand-twitter"
+                      className="icon icon-tabler icon-tabler-brand-twitter"
                       width="24"
                       height="24"
                       viewBox="0 0 24 24"
@@ -410,8 +465,6 @@ const AboutCoin = () => {
             </div>
           </div>
         </Container>
-      ) : (
-        <Container />
       )}
       <Footer />
     </div>

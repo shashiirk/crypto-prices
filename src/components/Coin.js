@@ -35,6 +35,7 @@ const Style = styled.div`
       display: block;
       width: 32px;
       border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.24);
     }
 
     .text {
@@ -95,6 +96,12 @@ const Style = styled.div`
 
   @media (hover: hover) {
     &:hover {
+      background-color: #f9f9f9;
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
       background-color: #f9f9f9;
     }
   }

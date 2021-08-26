@@ -202,7 +202,7 @@ const Table = (props) => {
       <div className="head">{header}</div>
       <div className="coins">
         {props.loading &&
-          Array(25)
+          Array(100)
             .fill(1)
             .map((item, index) => (
               <CoinSkeleton key={index} type={screenType} />

@@ -6,6 +6,7 @@ import { Route, Switch } from 'react-router';
 import Table from './components/Table';
 import Home from './pages/Home';
 import AboutCoin from './pages/AboutCoin';
+import ScrollToTop from './hooks/ScrollToTop';
 
 const Div = styled.div`
   text-align: center;
@@ -44,7 +45,7 @@ function App() {
         setIsLoading(true);
 
         const { data } = await axios.get(
-          'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&sparkline=false'
+          'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
         );
 
         setCoins(data);
@@ -126,14 +127,17 @@ function App() {
   }
 
   return (
-    <Switch>
-      <Route exact path="/">
-        <Home>{mainContent}</Home>
-      </Route>
-      <Route exact path="/coins/:id">
-        <AboutCoin />
-      </Route>
-    </Switch>
+    <>
+      <ScrollToTop />
+      <Switch>
+        <Route exact path="/">
+          <Home>{mainContent}</Home>
+        </Route>
+        <Route exact path="/coins/:id">
+          <AboutCoin />
+        </Route>
+      </Switch>
+    </>
   );
 }
 
