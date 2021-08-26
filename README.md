@@ -1,4 +1,13 @@
-# Crypto Prices
+<p align="center">
+  <a href="https://the-crypto-prices.netlify.app">
+    <img alt="logo" src="public/logo.svg" width="60" />
+  </a>
+</p>
+<h1 align="center">
+  Crypto Prices
+</h1>
+
+## Description
 
 An application that fetches the live prices of cryptocurrencies and displays it to the user with a stunning User Interface.
 
@@ -33,6 +42,7 @@ $ npm start
 ## Tools
 
 - [React](https://reactjs.org)
+- [React Router](https://reactrouter.com)
 - [Create React App](https://create-react-app.dev)
 - [Styled Components](https://styled-components.com)
 - [CoinGecko API](https://www.coingecko.com/en/api)
@@ -44,4 +54,4 @@ $ npm start
 
 ## Licence
 
-[MIT](https://choosealicense.com/licenses/mit)
+This project is licensed under [MIT](https://choosealicense.com/licenses/mit).
