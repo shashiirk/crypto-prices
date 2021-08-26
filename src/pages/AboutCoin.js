@@ -67,8 +67,11 @@ const Container = styled.div`
         align-items: center;
 
         img {
+          display: inline-block;
           width: 32px;
           height: 32px;
+          border-radius: 50%;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.24);
         }
 
         .text {
@@ -262,7 +265,7 @@ const AboutCoin = () => {
       {!!coin ? (
         <Container>
           <div className="nav">
-            <Link to="/">Coins</Link>
+            <a href="/">Coins</a>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="icon icon-tabler icon-tabler-chevron-right"
@@ -278,7 +281,7 @@ const AboutCoin = () => {
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <polyline points="9 6 15 12 9 18" />
             </svg>
-            <Link to="#">{coin.name}</Link>
+            <a href={`/coins/${coin.id}`}>{coin.name}</a>
           </div>
           <div className="header">
             <div className="title">

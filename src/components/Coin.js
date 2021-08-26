@@ -34,6 +34,7 @@ const Style = styled.div`
     img {
       display: block;
       width: 32px;
+      border-radius: 50%;
     }
 
     .text {
