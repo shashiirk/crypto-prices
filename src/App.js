@@ -6,7 +6,7 @@ import { Route, Switch } from 'react-router';
 import Table from './components/Table';
 import Home from './pages/Home';
 import AboutCoin from './pages/AboutCoin';
-import ScrollToTop from './hooks/ScrollToTop';
+import ScrollToTop from './components/ScrollToTop';
 import NotFound from './pages/NotFound';
 import ColorBar from './components/ColorBar';
 import Footer from './components/Footer';
