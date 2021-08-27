@@ -3,9 +3,12 @@
     <img alt="logo" src="public/logo.svg" width="60" />
   </a>
 </p>
+
 <h1 align="center">
   Crypto Prices
 </h1>
+
+<p align="center"><a href="https://app.netlify.com/sites/the-crypto-prices/deploys"><img alt="netlify" src="https://api.netlify.com/api/v1/badges/f35cfb36-d7f5-4b35-92e2-2b9caad1e230/deploy-status" /></a></p>
 
 ## Description
 
