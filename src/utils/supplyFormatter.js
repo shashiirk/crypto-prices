@@ -8,7 +8,7 @@ const supplyFormatter = (num) => {
     : // Three Zeroes for Thousands
     Math.abs(Number(num)) >= 1.0e3
     ? (Math.abs(Number(num)) / 1.0e3).toFixed(2) + 'K'
-    : Math.abs(Number(num));
+    : Math.abs(Number(num)).toFixed(2);
 };
 
 export default supplyFormatter;

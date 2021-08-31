@@ -5,6 +5,7 @@ import currencyFormatter from '../utils/currencyFormatter';
 import higherCurrencyFormatter from '../utils/higherCurrencyFormatter';
 import changeFormatter from '../utils/changeFormatter';
 import supplyFormatter from '../utils/supplyFormatter';
+import preciseCurrencyFormatter from '../utils/preciseCurrencyFormatter';
 
 const Style = styled.div`
   display: flex;
@@ -34,6 +35,7 @@ const Style = styled.div`
     img {
       display: block;
       width: 32px;
+      margin-right: 14px;
       border-radius: 50%;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.24);
     }
@@ -41,9 +43,10 @@ const Style = styled.div`
     .text {
       display: flex;
       color: #222324;
+      flex-wrap: wrap;
 
       .name {
-        margin: 0 14px;
+        margin-right: 14px;
       }
 
       &.mobile {
@@ -54,10 +57,10 @@ const Style = styled.div`
           margin: 0;
         }
       }
-    }
 
-    .symbol {
-      color: #909296;
+      .symbol {
+        color: #909296;
+      }
     }
 
     &.mobile {
@@ -82,6 +85,10 @@ const Style = styled.div`
 
     .negative {
       color: #ef1921;
+    }
+
+    .null {
+      color: inherit;
     }
 
     &.mobile {
@@ -124,7 +131,11 @@ const Coin = (props) => {
           <p>{currencyFormatter.format(props.current_price)}</p>
           <p
             className={
-              props.price_change_percentage_24h > 0 ? 'positive' : 'negative'
+              props.price_change_percentage_24h !== null
+                ? props.price_change_percentage_24h > 0
+                  ? 'positive'
+                  : 'negative'
+                : 'null'
             }
           >
             {changeFormatter(props.price_change_percentage_24h)}
@@ -137,7 +148,7 @@ const Coin = (props) => {
       <>
         <Link to={`/coins/${props.id}`} className="title">
           <img src={props.image} alt={props.name} />
-          <div className={`text ${props.type === 'mobile' ? 'mobile' : ''}`}>
+          <div className="text">
             <p className="name">{props.name}</p>
             <p className="symbol">{props.symbol.toUpperCase()}</p>
           </div>
@@ -146,7 +157,11 @@ const Coin = (props) => {
           <p>{currencyFormatter.format(props.current_price)}</p>
           <p
             className={
-              props.price_change_percentage_24h > 0 ? 'positive' : 'negative'
+              props.price_change_percentage_24h !== null
+                ? props.price_change_percentage_24h > 0
+                  ? 'positive'
+                  : 'negative'
+                : 'null'
             }
           >
             {changeFormatter(props.price_change_percentage_24h)}
@@ -159,16 +174,24 @@ const Coin = (props) => {
       <>
         <Link to={`/coins/${props.id}`} className="title">
           <img src={props.image} alt={props.name} />
-          <div className={`text ${props.type === 'mobile' ? 'mobile' : ''}`}>
+          <div className="text">
             <p className="name">{props.name}</p>
             <p className="symbol">{props.symbol.toUpperCase()}</p>
           </div>
         </Link>
         <div className="info">
-          <p>{currencyFormatter.format(props.current_price)}</p>
+          <p>
+            {props.current_price < 1
+              ? preciseCurrencyFormatter.format(props.current_price)
+              : currencyFormatter.format(props.current_price)}
+          </p>
           <p
             className={
-              props.price_change_percentage_24h > 0 ? 'positive' : 'negative'
+              props.price_change_percentage_24h !== null
+                ? props.price_change_percentage_24h > 0
+                  ? 'positive'
+                  : 'negative'
+                : 'null'
             }
           >
             {changeFormatter(props.price_change_percentage_24h)}

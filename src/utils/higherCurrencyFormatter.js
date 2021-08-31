@@ -10,7 +10,7 @@ const higherCurrencyFormatter = (num) => {
     : // Three Zeroes for Thousands
     Math.abs(Number(num)) >= 1.0e3
     ? currencyFormatter.format(Math.abs(Number(num)) / 1.0e3) + 'K'
-    : Math.abs(Number(num));
+    : currencyFormatter.format(Math.abs(Number(num)));
 };
 
 export default higherCurrencyFormatter;
