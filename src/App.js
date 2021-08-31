@@ -9,6 +9,7 @@ import AboutCoin from './pages/AboutCoin';
 import ScrollToTop from './components/ScrollToTop';
 import NotFound from './pages/NotFound';
 import ColorBar from './components/ColorBar';
+import Pagination from './components/Pagination';
 import Footer from './components/Footer';
 
 const Div = styled.div`
@@ -44,6 +45,10 @@ function App() {
     sortReducer,
     DEFAULT_SORT_STATE
   );
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const pageLimit = 5;
+  const pages = 20;
 
   useEffect(() => {
     const request = async () => {
@@ -51,7 +56,7 @@ function App() {
         setIsLoading(true);
 
         const { data } = await axios.get(
-          'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${currentPage}&sparkline=false`
         );
 
         setCoins(data);
@@ -64,8 +69,10 @@ function App() {
       }
     };
 
+    window.scrollTo(0, 0);
+
     request();
-  }, []);
+  }, [currentPage]);
 
   const selectSortHandler = (parameter) => {
     dispatchSortState({ type: 'SELECT_SORT', parameter: parameter });
@@ -73,6 +80,23 @@ function App() {
 
   const toggleSortHandler = () => {
     dispatchSortState({ type: 'TOGGLE_SORT' });
+  };
+
+  const goToNextPage = () => {
+    if (currentPage !== pages) {
+      setCurrentPage((prevValue) => prevValue + 1);
+    }
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage !== 1) {
+      setCurrentPage((prevValue) => prevValue - 1);
+    }
+  };
+
+  const changePage = (event) => {
+    const pageNumber = Number(event.target.textContent);
+    setCurrentPage(pageNumber);
   };
 
   let sortedCoins;
@@ -102,7 +126,19 @@ function App() {
   let mainContent;
 
   if (isLoading) {
-    mainContent = <Table coins={sortedCoins} loading={isLoading} />;
+    mainContent = (
+      <>
+        <Table coins={sortedCoins} loading={isLoading} />
+        <Pagination
+          currentPage={currentPage}
+          pageLimit={pageLimit}
+          pages={pages}
+          goToNextPage={goToNextPage}
+          goToPreviousPage={goToPreviousPage}
+          changePage={changePage}
+        />
+      </>
+    );
   } else {
     if (isError) {
       mainContent = (
@@ -113,14 +149,24 @@ function App() {
     } else {
       if (sortedCoins.length > 0) {
         mainContent = (
-          <Table
-            coins={sortedCoins}
-            loading={isLoading}
-            sortParameter={sortState.parameter}
-            sortOrder={sortState.order}
-            onSelectSort={selectSortHandler}
-            onToggleSort={toggleSortHandler}
-          />
+          <>
+            <Table
+              coins={sortedCoins}
+              loading={isLoading}
+              sortParameter={sortState.parameter}
+              sortOrder={sortState.order}
+              onSelectSort={selectSortHandler}
+              onToggleSort={toggleSortHandler}
+            />
+            <Pagination
+              currentPage={currentPage}
+              pageLimit={pageLimit}
+              pages={pages}
+              goToNextPage={goToNextPage}
+              goToPreviousPage={goToPreviousPage}
+              changePage={changePage}
+            />
+          </>
         );
       } else {
         mainContent = (
@@ -137,7 +183,14 @@ function App() {
       <ScrollToTop />
       <Switch>
         <Route exact path="/">
-          <Home>{mainContent}</Home>
+          <Home
+            currentPage={currentPage}
+            goToNextPage={goToNextPage}
+            goToPreviousPage={goToPreviousPage}
+            changePage={changePage}
+          >
+            {mainContent}
+          </Home>
         </Route>
         <Route exact path="/coins/:id">
           <AboutCoin />
