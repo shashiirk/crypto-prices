@@ -88,7 +88,7 @@ const Style = styled.div`
     }
 
     .null {
-      color: inherit;
+      color: #222324;
     }
 
     &.mobile {
@@ -138,7 +138,9 @@ const Coin = (props) => {
                 : 'null'
             }
           >
-            {changeFormatter(props.price_change_percentage_24h)}
+            {props.price_change_percentage_24h !== null
+              ? changeFormatter(props.price_change_percentage_24h)
+              : 'NA\u00a0'}
           </p>
         </div>
       </Link>
@@ -164,7 +166,9 @@ const Coin = (props) => {
                 : 'null'
             }
           >
-            {changeFormatter(props.price_change_percentage_24h)}
+            {props.price_change_percentage_24h !== null
+              ? changeFormatter(props.price_change_percentage_24h)
+              : 'NA\u00a0\u00a0\u00a0\u00a0'}
           </p>
         </div>
       </>
@@ -194,7 +198,9 @@ const Coin = (props) => {
                 : 'null'
             }
           >
-            {changeFormatter(props.price_change_percentage_24h)}
+            {props.price_change_percentage_24h !== null
+              ? changeFormatter(props.price_change_percentage_24h)
+              : 'NA\u00a0\u00a0\u00a0\u00a0'}
           </p>
           <p>{higherCurrencyFormatter(props.total_volume)}</p>
           <p>{higherCurrencyFormatter(props.market_cap)}</p>
