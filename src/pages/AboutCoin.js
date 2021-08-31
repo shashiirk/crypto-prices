@@ -23,6 +23,7 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 32px;
+    color: #83858a;
 
     a {
       text-decoration: none;
@@ -343,8 +344,8 @@ const AboutCoin = () => {
               width="18"
               height="18"
               viewBox="0 0 24 24"
-              strokeWidth="1"
-              stroke="#2c3e50"
+              strokeWidth="1.5"
+              stroke="currentColor"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
