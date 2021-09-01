@@ -16,11 +16,19 @@ An application that fetches the live prices of cryptocurrencies and displays it 
 
 ## Preview
 
-![preview](https://user-images.githubusercontent.com/48406108/122037203-fcfa3300-cdf1-11eb-9b71-0af574c70cb2.gif)
+![preview](https://user-images.githubusercontent.com/48406108/131674361-19ab4640-a337-4f55-9900-49b81cdacfd2.gif)
 
 ## Live Demo
 
 See it live [here](https://the-crypto-prices.netlify.app).
+
+## Features
+
+- Display cryptocurrenies in a tabular form]
+- Sort tabular data based on different attributes
+- Show more information about a coin
+- Client-side routing
+- Pagination
 
 ## Installation
 
