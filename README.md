@@ -24,7 +24,7 @@ See it live [here](https://the-crypto-prices.netlify.app).
 
 ## Features
 
-- Display cryptocurrenies in a tabular form]
+- Display cryptocurrenies in a tabular form
 - Sort tabular data based on different attributes
 - Show more information about a coin
 - Client-side routing
