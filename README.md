@@ -28,6 +28,7 @@ See it live [here](https://the-crypto-prices.netlify.app).
 - Data can be sorted based on different attributes
 - Shows more information about a coin
 - Client-side routing
+- Custom error page
 - Pagination
 
 ## Installation
